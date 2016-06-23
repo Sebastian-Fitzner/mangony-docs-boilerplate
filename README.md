@@ -27,4 +27,4 @@ The `partials` folder contains a snippet to generate a sitemap out of the saved 
 
 ### styles
 
-There are some SCSS and CSS files. Just integrate to your project to get some nice code highlighting!
+There are some SCSS and CSS files. Just integrate them into your project to get some nice code highlighting!
