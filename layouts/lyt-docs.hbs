@@ -1,0 +1,85 @@
+{{#extend "lyt-default"}}
+	{{#content "main"}}
+
+		{{{markdown (buildPath @root.currentPage.dirname "README.md") }}}
+
+		<h2>Data File</h2>
+		{{#highlight "json"}}
+			{{{embeding (buildPath @root.currentPage.dirname (concat this.contextData ".hjson")) }}}
+		{{/highlight}}
+
+		<h2>Templates</h2>
+
+		<h3>{{@root.currentPage.filename}}</h3>
+
+		{{#highlight "hbs"}}
+			{{{embeding (buildPath @root.currentPage.dirname @root.currentPage.basename) }}}
+		{{/highlight}}
+
+		{{#if this.subTemplates}}
+			{{#each this.subTemplates}}
+				<h3>{{this}}</h3>
+				{{#highlight "hbs"}}
+					{{{embeding (buildPath @root.currentPage.dirname this) }}}
+				{{/highlight}}
+			{{/each}}
+		{{/if}}
+
+		{{#if this.scssFiles}}
+			<h2>SCSS Files</h2>
+			{{#each this.scssFiles}}
+				<h3>{{this}}</h3>
+				{{#highlight "scss"}}
+					{{{embeding (buildPath @root.config.stylesDir this) }}}
+				{{/highlight}}
+			{{/each}}
+		{{/if}}
+
+		<h2>HTML Output</h2>
+		{{#each variations}}
+			{{#highlight "html"}}
+				{{#beautifyHTML}}
+					{{{yield}}}
+				{{/beautifyHTML}}
+			{{/highlight}}
+		{{/each}}
+
+		{{#if imagePresets}}
+			{{#pictureData pictures imagePresets}}
+				<div class="doc__image-presets">
+					<h2>Image Presets</h2>
+
+					{{#each this}}
+						<h3>{{uppercase presetName}}</h3>
+						<table class="c-table--zebra" data-css="c-table">
+							<thead class="table__head">
+							<tr class="table__row is-header">
+								<th class="table__headline is-th">Breakpoints</th>
+								<th class="table__headline is-th">Width</th>
+								<th class="table__headline is-th">Height</th>
+							</tr>
+							</thead>
+							<tbody class="table__body">
+							{{#each data}}
+								<tr class="table__row">
+									<td class="table__cell is-title is-td"> {{this.breakpoint}}</td>
+									<td class="table__cell is-td"> {{this.width}}</td>
+									<td class="table__cell is-td"> {{this.height}}</td>
+								</tr>
+							{{/each}}
+							</tbody>
+						</table>
+					{{/each}}
+				</div>
+			{{/pictureData}}
+		{{/if}}
+
+		<h2>Demos</h2>
+
+		{{#each variations}}
+			<h3>{{this}}</h3>
+			{{{yield}}}
+		{{/each}}
+
+	{{/content}}
+{{/extend}}
